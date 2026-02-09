@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valhalla Motorcycles | Forging Legends</title>
+    <!-- Fonts: Premium, bold, and clean -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --vmc-blue: #00AEEF;
+            --vmc-dark-blue: #007bbd;
+            --vmc-black: #050505;
+            --vmc-gray: #121212;
+            --vmc-white: #ffffff;
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- SMOOTH SCROLLING --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--vmc-black);
+            color: var(--vmc-white);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        /* --- 1. BOOT-IN ANIMATION --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--vmc-black);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s ease-in-out;
+        }
+
+        .loader-logo {
+            width: 250px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: logoIn 1s forwards;
+        }
+
+        @keyframes logoIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .counter {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--vmc-blue);
+            line-height: 1;
+        }
+
+        .load-bar-container {
+            width: 300px;
+            height: 2px;
+            background: #222;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .load-bar-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--vmc-blue);
+            width: 0%;
+            box-shadow: 0 0 15px var(--vmc-blue);
+        }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+        }
+
+        .nav-logo {
+            width: 80px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--vmc-blue) 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--vmc-blue);
+        }
+
+        /* --- 3. HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=2070');
+            /* Dynamic bike bg */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--vmc-blue);
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #ccc;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .btn-blue {
+            background: var(--vmc-blue);
+            color: var(--vmc-black);
+        }
+
+        .btn-blue:hover {
+            background: var(--vmc-white);
+            transform: translateY(-5px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--vmc-white);
+            color: var(--vmc-white);
+        }
+
+        .btn-outline:hover {
+            background: var(--vmc-white);
+            color: var(--vmc-black);
+        }
+
+        /* --- 4. SHOWROOM SECTION --- */
+        .section {
+            padding: 100px 10%;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: var(--vmc-blue);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .bike-card {
+            background: var(--vmc-gray);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: var(--transition);
+            border: 1px solid #222;
+        }
+
+        .bike-card:hover {
+            border-color: var(--vmc-blue);
+            transform: scale(1.02);
+        }
+
+        .bike-img {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: #111;
+            padding: 20px;
+        }
+
+        .bike-info {
+            padding: 30px;
+        }
+
+        .bike-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .bike-tag {
+            color: var(--vmc-blue);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* --- 5. SHOP ENTRANCE (THE FORGE) --- */
+        .entrance-banner {
+            height: 600px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent), url('entrance.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .entrance-content {
+            max-width: 500px;
+        }
+
+        /* --- 6. FOOTER --- */
+        footer {
+            padding: 60px 10%;
+            background: #000;
+            border-top: 1px solid #222;
+            text-align: center;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                text-align: center;
+                align-items: center;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loader">
+        <img src="logo.png" class="loader-logo" alt="VMC Logo">
+        <div class="counter" id="count">0%</div>
+        <div class="load-bar-container">
+            <div class="load-bar-fill" id="bar"></div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <img src="logo.png" class="nav-logo" alt="VMC">
+        <div class="nav-links">
+            <a href="Showroom.html">Showroom</a>
+            <a href="services.html">Services</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>VALHALLA<br><span>MOTORCYCLES</span></h1>
+        <p>Premium Sales, Expert Service, and Flexible Rent-to-Own. We keep South African riders moving with the best in
+            reliability.</p>
+        <div class="cta-group">
+            <a href="Showroom.html" class="btn btn-blue">View Inventory</a>
+            <a href="contact.html" class="btn btn-outline">Visit the Shop</a>
+        </div>
+    </section>
+
+    <!-- SHOWROOM -->
+    <section class="section" id="showroom">
+        <h2 class="section-title">FEATURED <span>INVENTORY</span></h2>
+        <div class="grid">
+            <!-- Standard Bike -->
+            <div class="bike-card">
+                <span class="bike-tag"
+                    style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.7); padding: 5px 15px; border-radius: 20px;">IN
+                    STOCK</span>
+                <img src="https://www.heromotocorp.com/en-za/uploads/bike_color/za/eco-150/colors/black.png"
+                    class="bike-img" alt="Hero Eco 150">
+                <div class="bike-info">
+                    <span class="bike-tag">Commuter King</span>
+                    <h3>Hero Eco 150 Standard</h3>
+                    <p>Unrivaled fuel efficiency (60km/L) and rugged durability for daily commutes.</p>
+                </div>
+            </div>
+
+            <!-- Delivery Bike -->
+            <div class="bike-card">
+                <img src="https://heromotorcycles.co.za/wp-content/uploads/2023/11/Eco-150-Black-November.png"
+                    class="bike-img" alt="Hero Eco 150 Commercial">
+                <div class="bike-info">
+                    <span class="bike-tag">Delivery Expert</span>
+                    <h3>Hero Eco 150 Commercial</h3>
+                    <p>Pre-fitted with reinforced brackets and delivery box. Built for the hustle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE SHOP -->
+    <section class="entrance-banner">
+        <div class="entrance-content">
+            <h2 style="font-size: 3rem;">THE <span>FORGE</span></h2>
+            <p>Our workshop and showroom in Centurion is where legends are maintained. Drop in for a coffee and a bike
+                check.</p>
+            <a href="Showroom.html" class="btn btn-blue" style="display: inline-block; margin-top: 20px;">Get
+                Directions</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <img src="logo.png" style="width: 100px; margin-bottom: 20px;" alt="VMC">
+        <p>Centurion, South Africa | Sales • Service • Parts</p>
+        <p style="margin-top: 20px; opacity: 0.5;">© 2026 Valhalla Motorcycles. Ride Your Legend.</p>
+    </footer>
+
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/276661879" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // --- LOADER LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            let count = 0;
+            const counterElement = document.getElementById('count');
+            const barElement = document.getElementById('bar');
+            const loader = document.getElementById('loader');
+
+            const timer = setInterval(() => {
+                count += Math.floor(Math.random() * 5) + 2;
+                if (count >= 100) {
+                    count = 100;
+                    clearInterval(timer);
+
+                    // Boot-out effect
+                    setTimeout(() => {
+                        loader.style.transform = "translateY(-100%)";
+                    }, 400);
+                }
+                counterElement.innerText = count + "%";
+                barElement.style.width = count + "%";
+            }, 60);
+        });
+
+        // --- SCROLL REVEAL SIMULATION ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bike-card').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(30px)";
+            el.style.transition = "all 0.8s ease-out";
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

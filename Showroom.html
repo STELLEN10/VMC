@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMC Showroom | Hero Eco 150 Series</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --vmc-blue: #00AEEF;
+            --vmc-black: #050505;
+            --vmc-dark-gray: #111111;
+            --vmc-light-gray: #1a1a1a;
+            --vmc-white: #ffffff;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--vmc-black);
+            color: var(--vmc-white);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Header & Intro --- */
+        .showroom-header {
+            padding: 80px 10% 40px;
+            text-align: center;
+        }
+
+        .showroom-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .showroom-header h1 span {
+            color: var(--vmc-blue);
+        }
+
+        .tagline {
+            color: #888;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Gallery Grid --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px 10% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .bike-tile {
+            background: var(--vmc-dark-gray);
+            border-radius: 12px;
+            padding: 40px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--ease-out) 0.4s;
+            border: 1px solid #222;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .bike-tile:hover {
+            border-color: var(--vmc-blue);
+            background: var(--vmc-light-gray);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 174, 239, 0.1);
+        }
+
+        .bike-tile img {
+            width: 100%;
+            height: auto;
+            transition: var(--ease-out) 0.6s;
+        }
+
+        .bike-tile:hover img {
+            transform: scale(1.1);
+        }
+
+        .bike-tile h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .click-hint {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--vmc-blue);
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .bike-tile:hover .click-hint {
+            opacity: 1;
+        }
+
+        /* --- ZOOM OVERLAY (THE "DETAIL" VIEW) --- */
+        .detail-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 1000;
+            display: none;
+            /* Controlled by JS */
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out);
+            overflow-y: auto;
+            padding: 40px 10%;
+        }
+
+        .detail-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            transform: scale(0.9);
+            transition: transform 0.6s var(--ease-out);
+        }
+
+        .detail-overlay.active .detail-container {
+            transform: scale(1);
+        }
+
+        .detail-image-box {
+            background: radial-gradient(circle at center, #222 0%, #050505 100%);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .detail-image-box img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .detail-info h2 {
+            font-family: 'Montserrat';
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .price-badge {
+            display: inline-block;
+            background: var(--vmc-blue);
+            color: var(--vmc-black);
+            padding: 5px 15px;
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .spec-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 40px;
+        }
+
+        .spec-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+        }
+
+        .spec-list li b {
+            color: var(--vmc-white);
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--vmc-blue);
+            transform: rotate(90deg);
+        }
+
+        .cta-btn {
+            background: var(--vmc-blue);
+            color: var(--vmc-black);
+            padding: 20px 40px;
+            text-decoration: none;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 4px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery>div {
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .detail-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .detail-info h2 {
+                font-size: 2rem;
+            }
+
+            .showroom-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header class="showroom-header">
+        <p class="tagline">Explore the Hero Series</p>
+        <h1>VMC <span>Showroom</span></h1>
+    </header>
+
+    <!-- Bike Gallery -->
+    <div class="gallery">
+        <!-- Bike 1 -->
+        <div class="bike-tile" onclick="openDetail('standard')">
+            <img src="image1.jpg" alt="Hero Eco 150">
+            <h3>Hero Eco 150 Standard</h3>
+            <div class="click-hint">Click for Specs <i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <!-- Bike 2 -->
+        <div class="bike-tile" onclick="openDetail('commercial')">
+            <img src="image.png" alt="Hero Eco 150 Commercial">
+            <h3>Hero Eco 150 Commercial</h3>
+            <div class="click-hint">Click for Specs <i class="fas fa-chevron-right"></i></div>
+        </div>
+    </div>
+
+    <!-- DETAIL OVERLAY (MODAL) -->
+    <div id="detailOverlay" class="detail-overlay">
+        <i class="fas fa-times close-btn" onclick="closeDetail()"></i>
+
+        <div class="detail-container">
+            <div class="detail-image-box">
+                <img id="detailImg" src="" alt="Bike Detail">
+            </div>
+            <div class="detail-info">
+                <h2 id="detailTitle">Title</h2>
+                <div class="price-badge" id="detailPrice">Enquire for Price</div>
+                <p id="detailDesc" style="color: #aaa; margin-bottom: 30px;">Description text goes here.</p>
+
+                <ul class="spec-list">
+                    <li><span>Engine:</span> <b id="specEngine">149.1cc</b></li>
+                    <li><span>Fuel Economy:</span> <b id="specFuel">60 KM/L</b></li>
+                    <li><span>Top Speed:</span> <b>108 KM/H</b></li>
+                    <li><span>Braking:</span> <b>Drum (Internal Expanding)</b></li>
+                    <li><span>Start:</span> <b>Kick & Self Start</b></li>
+                </ul>
+
+                <a href="https://wa.me/2776661879" class="cta-btn"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bikeData = {
+            standard: {
+                title: "Hero Eco 150 Standard",
+                img: "image1.jpg",
+                desc: "The commuter's champion. Built for efficiency and long-term reliability on South African roads.",
+                price: "Best Local Pricing",
+                engine: "149.1cc Single Cylinder",
+                fuel: "Up to 60 km/L"
+            },
+            commercial: {
+                title: "Hero Eco 150 Commercial",
+                img: "image.png",
+                desc: "Equipped with a reinforced rear carrier and heavy-duty delivery box. Designed for 24/7 business operations.",
+                price: "Fleet Specials Available",
+                engine: "149.1cc (High Torque)",
+                fuel: "58 km/L (Optimized for Load)"
+            }
+        };
+
+        function openDetail(key) {
+            const data = bikeData[key];
+            const overlay = document.getElementById('detailOverlay');
+
+            document.getElementById('detailTitle').innerText = data.title;
+            document.getElementById('detailImg').src = data.img;
+            document.getElementById('detailDesc').innerText = data.desc;
+            document.getElementById('detailPrice').innerText = data.price;
+            document.getElementById('specEngine').innerText = data.engine;
+            document.getElementById('specFuel').innerText = data.fuel;
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop scrolling
+        }
+
+        function closeDetail() {
+            const overlay = document.getElementById('detailOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Close on 'Esc' key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDetail();
+        });
+    </script>
+</body>
+
+</html>
