@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts & Workshop Services | Valhalla Motorcycles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --vmc-blue: #00AEEF;
+            --vmc-black: #050505;
+            --vmc-dark-gray: #111111;
+            --vmc-light-gray: #1a1a1a;
+            --vmc-white: #ffffff;
+            --vmc-border: #222;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--vmc-black);
+            color: var(--vmc-white);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* --- Navigation (Simplified) --- */
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        .nav-logo { width: 60px; }
+        .nav-links a { 
+            color: white; text-decoration: none; 
+            font-weight: 600; font-size: 0.9rem; 
+            text-transform: uppercase; margin-left: 20px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--vmc-blue); }
+
+        /* --- Hero Banner --- */
+        .parts-hero {
+            height: 50vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(5,5,5,1)), url('top.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .parts-hero h1 {
+            font-size: 4rem;
+            margin: 0 0 10px 0;
+        }
+
+        .parts-hero h1 span { color: var(--vmc-blue); }
+        .parts-hero p { color: #aaa; font-size: 1.2rem; max-width: 600px; }
+
+        /* --- Content Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: -50px auto 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Category Cards --- */
+        .category-card {
+            background: var(--vmc-dark-gray);
+            border: 1px solid var(--vmc-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: #151515;
+            padding: 20px;
+            border-bottom: 2px solid var(--vmc-blue);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-header i {
+            font-size: 1.5rem;
+            color: var(--vmc-blue);
+        }
+
+        .category-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--vmc-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .item-list li:last-child { border-bottom: none; }
+        .item-list li:hover { background: var(--vmc-light-gray); }
+        
+        .item-name { color: #ddd; font-weight: 500; }
+        
+        /* The "In Stock" or "Book" tag */
+        .status-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .tag-stock { background: rgba(0, 174, 239, 0.1); color: var(--vmc-blue); border: 1px solid var(--vmc-blue); }
+        .tag-service { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid #555; }
+
+        /* --- CTA Section --- */
+        .order-cta {
+            background: linear-gradient(45deg, var(--vmc-dark-gray), #111);
+            border: 1px solid var(--vmc-blue);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .order-cta h2 { font-size: 2rem; margin-bottom: 15px; }
+        
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25d366;
+            color: var(--vmc-black);
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            transition: transform 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-whatsapp:hover { transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            .parts-hero h1 { font-size: 2.5rem; }
+            .parts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <img src="logo.png" class="nav-logo" alt="VMC Logo">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="showroom.html">Showroom</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <header class="parts-hero">
+        <h1>VMC <span>PARTS & WORKSHOP</span></h1>
+        <p>Premium Spares, Reliable Consumables, and Expert Fitment Services for your Hero Eco 150.</p>
+    </header>
+
+    <div class="container">
+        <div class="parts-grid">
+            
+            <!-- CATEGORY 1: SPARES -->
+            <div class="category-card">
+                <div class="category-header">
+                    <i class="fas fa-cogs"></i>
+                    <h2>Genuine Spares</h2>
+                </div>
+                <ul class="item-list">
+                    <li><span class="item-name">Brake Shoes Kit</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Sprocket and Chain Set</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Front Tyre</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Rear Tyre</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Inner Tube</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Spark Plug</span> <span class="status-tag tag-stock">In Stock</span></li>
+                </ul>
+            </div>
+
+            <!-- CATEGORY 2: CABLES, LEVERS & LIGHTING -->
+            <div class="category-card">
+                <div class="category-header">
+                    <i class="fas fa-bolt"></i>
+                    <h2>Controls & Electrical</h2>
+                </div>
+                <ul class="item-list">
+                    <li><span class="item-name">Clutch Cable</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Brake Cable</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Throttle Cable</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Speedo Cable</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Clutch Lever</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Brake Lever</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Mirror Set</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Headlight Globe</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Brake/Tail Globe</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Indicator Globe</span> <span class="status-tag tag-stock">In Stock</span></li>
+                </ul>
+            </div>
+
+            <!-- CATEGORY 3: WORKSHOP SERVICES -->
+            <div class="category-card">
+                <div class="category-header">
+                    <i class="fas fa-wrench"></i>
+                    <h2>Fitment & Labour</h2>
+                </div>
+                <ul class="item-list">
+                    <li><span class="item-name">Front Brake Shoe Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">Rear Brake Shoe Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">Chain & Sprocket Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">Front Tyre / Tube Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">Rear Tyre / Tube Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">Spark Plug Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                    <li><span class="item-name">General Cable Fitment</span> <span class="status-tag tag-service">Book Now</span></li>
+                </ul>
+            </div>
+
+            <!-- CATEGORY 4: CONSUMABLES & GEAR -->
+            <div class="category-card">
+                <div class="category-header">
+                    <i class="fas fa-helmet-safety"></i>
+                    <h2>Consumables & Gear</h2>
+                </div>
+                <ul class="item-list">
+                    <li><span class="item-name">Chain Lube</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">Chain Wax</span> <span class="status-tag tag-stock">In Stock</span></li>
+                    <li><span class="item-name">MT Helmet (Size XL)</span> <span class="status-tag tag-stock">In Stock</span></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Order Call To Action -->
+        <div class="order-cta">
+            <h2>Need Parts or a Service Booking?</h2>
+            <p style="color: #aaa; margin-bottom: 20px;">Send our parts desk a quick WhatsApp with what you need. We'll confirm stock, pricing, and workshop availability instantly.</p>
+            <a href="https://wa.me/27766681879?text=Hi%20VMC%20Team,%20I%20am%20looking%20to%20inquire%20about%20parts/service%20from%20your%20website%20list." class="btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp the Parts Desk
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
